@@ -1,0 +1,72 @@
+#include <stdio.h>
+
+#define SIZE 5
+
+int queue[SIZE];
+int front = -1;
+int rear = -1;
+
+void enqueue(int value) {
+    if (rear == SIZE - 1) {
+        printf("Queue Overflow\n");
+    } else {
+        if (front == -1) {
+            front = 0;
+        }
+        rear++;
+        queue[rear] = value;
+        printf("Print request added: %d pages\n", value);
+    }
+}
+
+void dequeue() {
+    if (front == -1 || front > rear) {
+        printf("Queue Underflow\n");
+    } else {
+        printf("Printing %d pages...\n", queue[front]);
+        front++;
+    }
+}
+
+void display() {
+    int i;
+    if (front == -1 || front > rear) {
+        printf("Current Printer Queue:\n");
+        printf(" [ empty ]\n");
+    } else {
+        printf("Current Printer Queue:\n");
+        printf(" [ ");
+        for (i = front; i <= rear; i++) {
+            printf("%d pages ", queue[i]);
+            if (i < rear) printf("] [ ");
+        }
+        printf("]\n");
+    }
+}
+
+int main() {
+    int choice;
+    while (1) {
+        display();
+        printf("Menu:\n");
+        printf("1. Request to print\n");
+        printf("2. Perform printing\n");
+        printf("3. Exit\n");
+        printf("Enter your choice: ");
+        scanf("%d", &choice);
+        if (choice == 1) {
+            int pages;
+            printf("Enter number of pages: ");
+            scanf("%d", &pages);
+            enqueue(pages);
+        } else if (choice == 2) {
+            dequeue();
+        } else if (choice == 3) {
+            printf("Exiting program.\n");
+            break;
+        } else {
+            printf("Invalid choice. Please try again.\n");
+        }
+    }
+    return 0;
+}
